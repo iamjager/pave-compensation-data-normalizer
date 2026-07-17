@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DeleteCompanyButton from "@/components/DeleteCompanyButton";
 import UploadCard from "@/components/UploadCard";
 import { loadRecords } from "@/lib/engine/loaders";
 import { listSourceFiles, readConfig, readRawFile } from "@/lib/server/store";
@@ -32,8 +33,12 @@ export default async function Home() {
           <Link
             key={info.id}
             href={`/mapper/${info.id}`}
-            className="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-slate-400 hover:shadow"
+            className="group relative rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-slate-400 hover:shadow"
           >
+            <DeleteCompanyButton
+              companyId={info.id}
+              companyName={config?.company_name ?? info.id}
+            />
             <div className="text-base font-semibold group-hover:text-slate-900">
               {config?.company_name ?? info.id}
             </div>

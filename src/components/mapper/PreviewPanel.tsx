@@ -22,10 +22,14 @@ export default function PreviewPanel({
   preview,
   config,
   driftPanel,
+  onResetMapping,
+  onDeleteCompany,
 }: {
   preview: RunResult | null;
   config: CompanyConfig;
   driftPanel: React.ReactNode;
+  onResetMapping: () => void;
+  onDeleteCompany: () => void;
 }) {
   const [tab, setTab] = useState<Tab>("records");
   const [selected, setSelected] = useState<WrappedRecord | null>(null);
@@ -205,6 +209,33 @@ export default function PreviewPanel({
             <pre className="overflow-x-auto rounded-lg bg-slate-900 p-3 text-[11px] leading-relaxed text-slate-100">
               {JSON.stringify(config, null, 2)}
             </pre>
+
+            <div className="mt-4 rounded-lg border border-rose-200 bg-rose-50/40 p-3">
+              <div className="text-[10px] font-semibold uppercase tracking-wide text-rose-400">
+                Danger zone
+              </div>
+              <div className="mt-2 flex items-center gap-4 text-xs">
+                <button
+                  onClick={onResetMapping}
+                  disabled={config.config_version === 0}
+                  title={
+                    config.config_version === 0
+                      ? "Nothing saved yet — you're already on a fresh draft"
+                      : "Delete the saved mapping and start over (raw file and cached extractions are kept)"
+                  }
+                  className="font-medium text-rose-600 hover:text-rose-800 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Delete saved mapping (start over)
+                </button>
+                <button
+                  onClick={onDeleteCompany}
+                  title="Remove the raw file, the saved mapping, and matching cached extractions"
+                  className="font-medium text-rose-600 hover:text-rose-800"
+                >
+                  Delete company entirely…
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>

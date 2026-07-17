@@ -1,6 +1,8 @@
+import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { CompanyConfig } from "@/lib/engine/config";
+import { loadRecords } from "@/lib/engine/loaders";
 import type { RunResult } from "@/lib/engine/normalize";
 
 /**
@@ -92,6 +94,71 @@ export function writeConfig(config: CompanyConfig): CompanyConfig {
   mkdirSync(CONFIG_DIR, { recursive: true });
   writeFileSync(path.join(CONFIG_DIR, `${config.company_id}.json`), JSON.stringify(saved, null, 2) + "\n");
   return saved;
+}
+
+/** Remove a company's saved mapping config. Returns false if none existed. */
+export function deleteConfig(companyId: string): boolean {
+  const file = path.join(CONFIG_DIR, `${assertSafeId(companyId)}.json`);
+  if (!existsSync(file)) return false;
+  unlinkSync(file);
+  return true;
+}
+
+/**
+ * Content hashes of every string value in a parsed document — the same
+ * sha256(trimmed text) the equity-extraction cache uses as its file name,
+ * so cache entries can be matched EXACTLY (a shorter note that is merely a
+ * substring of another company's note must not match).
+ */
+export function collectStringHashes(value: unknown, hashes = new Set<string>()): Set<string> {
+  if (typeof value === "string" && value.trim() !== "") {
+    hashes.add(createHash("sha256").update(value.trim()).digest("hex"));
+  } else if (Array.isArray(value)) {
+    for (const item of value) collectStringHashes(item, hashes);
+  } else if (value && typeof value === "object") {
+    for (const item of Object.values(value)) collectStringHashes(item, hashes);
+  }
+  return hashes;
+}
+
+/**
+ * Remove a company entirely: raw file, saved config, and cached equity
+ * extractions whose exact source text occurs in the file. The cache is
+ * content-addressed (keyed by note text, not by company), so an identical
+ * note shared with another company is removed too — it simply re-extracts
+ * on next use.
+ */
+export function deleteCompany(id: string): {
+  rawDeleted: boolean;
+  configDeleted: boolean;
+  cacheDeleted: number;
+} {
+  assertSafeId(id);
+  const info = listSourceFiles().find((f) => f.id === id);
+  let cacheDeleted = 0;
+
+  if (info) {
+    const rawText = readFileSync(path.join(RAW_DIR, info.fileName), "utf8");
+    let hashes = new Set<string>();
+    try {
+      hashes = collectStringHashes(
+        info.format === "json" ? JSON.parse(rawText) : loadRecords(rawText, { format: "csv" }).records,
+      );
+    } catch {
+      // unparseable file — delete it without cache cleanup
+    }
+    if (hashes.size > 0 && existsSync(EQUITY_CACHE_DIR)) {
+      for (const entry of readdirSync(EQUITY_CACHE_DIR).filter((f) => f.endsWith(".json"))) {
+        if (hashes.has(entry.replace(/\.json$/, ""))) {
+          unlinkSync(path.join(EQUITY_CACHE_DIR, entry));
+          cacheDeleted += 1;
+        }
+      }
+    }
+    unlinkSync(path.join(RAW_DIR, info.fileName));
+  }
+
+  return { rawDeleted: Boolean(info), configDeleted: deleteConfig(id), cacheDeleted };
 }
 
 export function writeOutput(result: RunResult): string {

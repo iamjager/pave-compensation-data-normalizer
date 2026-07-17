@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { CompanyConfig, MappingRule } from "@/lib/engine/config";
 import type { RunResult } from "@/lib/engine/normalize";
@@ -23,7 +24,20 @@ export interface SourceDetail {
 
 export type RowChip = "suggested" | "needs-review";
 
+const buildDraftConfig = (companyId: string, detail: SourceDetail): CompanyConfig => ({
+  config_version: 0,
+  company_id: companyId,
+  company_name: titleCase(companyId),
+  updated_at: "",
+  source: {
+    format: detail.info.format,
+    ...(detail.recordsPath ? { records_path: detail.recordsPath } : {}),
+  },
+  mappings: {},
+});
+
 export default function MapperScreen({ companyId }: { companyId: string }) {
+  const router = useRouter();
   const [detail, setDetail] = useState<SourceDetail | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [config, setConfig] = useState<CompanyConfig | null>(null);
@@ -59,17 +73,7 @@ export default function MapperScreen({ companyId }: { companyId: string }) {
       if (configRes.ok) {
         setConfig((await configRes.json()).config);
       } else {
-        setConfig({
-          config_version: 0,
-          company_id: companyId,
-          company_name: titleCase(companyId),
-          updated_at: "",
-          source: {
-            format: detailJson.info.format,
-            ...(detailJson.recordsPath ? { records_path: detailJson.recordsPath } : {}),
-          },
-          mappings: {},
-        });
+        setConfig(buildDraftConfig(companyId, detailJson));
         setDirty(true);
       }
     })();
@@ -202,6 +206,57 @@ export default function MapperScreen({ companyId }: { companyId: string }) {
     }
   }, [config, companyId, showNotice]);
 
+  const resetMapping = useCallback(async () => {
+    if (!detail) return;
+    if (
+      !window.confirm(
+        "Delete the saved mapping and start over?\n\nThe raw file and cached extractions are kept. This can't be undone.",
+      )
+    ) {
+      return;
+    }
+    setBusy("reset");
+    try {
+      const res = await fetch(`/api/configs/${companyId}`, { method: "DELETE" });
+      if (!res.ok) {
+        const json = await res.json();
+        showNotice(`Reset failed: ${json.error ?? res.statusText}`);
+        return;
+      }
+      setConfig(buildDraftConfig(companyId, detail));
+      setRowStatus({});
+      setDirty(true);
+      showNotice("Mapping deleted — you're on a fresh draft");
+    } finally {
+      setBusy(null);
+    }
+  }, [companyId, detail, showNotice]);
+
+  const removeCompany = useCallback(async () => {
+    if (
+      !window.confirm(
+        `Delete ${config?.company_name ?? companyId} entirely?\n\nRemoves the raw file, the saved mapping, and matching cached extractions. This can't be undone.`,
+      )
+    ) {
+      return;
+    }
+    setBusy("delete");
+    try {
+      const res = await fetch(`/api/sources/${companyId}`, { method: "DELETE" });
+      if (!res.ok) {
+        const json = await res.json();
+        showNotice(`Delete failed: ${json.error ?? res.statusText}`);
+        setBusy(null);
+        return;
+      }
+      router.push("/");
+      router.refresh();
+    } catch (e) {
+      showNotice(e instanceof Error ? e.message : String(e));
+      setBusy(null);
+    }
+  }, [companyId, config, router, showNotice]);
+
   const requiredProgress = useMemo(() => {
     const required = SCHEMA.filter((f) => f.required && !f.derived);
     const mapped = required.filter((f) => config?.mappings[f.key]);
@@ -266,6 +321,8 @@ export default function MapperScreen({ companyId }: { companyId: string }) {
         preview={preview}
         config={config}
         driftPanel={preview ? <DriftPanel drift={preview.drift} /> : null}
+        onResetMapping={resetMapping}
+        onDeleteCompany={removeCompany}
       />
     </div>
   );

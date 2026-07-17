@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { guessRecordsPath, loadRecords } from "@/lib/engine/loaders";
 import { profileRecords } from "@/lib/engine/profile";
-import { readConfig, readRawFile } from "@/lib/server/store";
+import { deleteCompany, readConfig, readRawFile } from "@/lib/server/store";
 
 /**
  * Source inspection: parse the raw file and profile every field.
@@ -37,6 +37,29 @@ export async function GET(
       profiles: profileRecords(records),
       sampleRecords: records.slice(0, 5),
     });
+  } catch (e) {
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : String(e) },
+      { status: 400 },
+    );
+  }
+}
+
+/**
+ * Remove a company entirely: raw file + saved mapping + cached equity
+ * extractions matched by the file's note texts.
+ */
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
+  try {
+    const result = deleteCompany(id);
+    if (!result.rawDeleted && !result.configDeleted) {
+      return NextResponse.json({ error: `Unknown company "${id}"` }, { status: 404 });
+    }
+    return NextResponse.json(result);
   } catch (e) {
     return NextResponse.json(
       { error: e instanceof Error ? e.message : String(e) },

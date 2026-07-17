@@ -34,6 +34,8 @@ npm test           # 64 tests: transform units, golden runs over the real raw
 
 To onboard a **new company**, use the **＋ Onboard a new company** card on the home page — drag-drop or browse a `.json`/`.csv` export and you land straight in the mapper with the file profiled and ✨Suggest one click away. Uploading a file for an already-mapped company offers to **replace** its raw file: the saved mapping is kept, and the preview immediately reports any drift in the new export. (Dropping files into `src/data/raw/` still works as the power-user path.)
 
+The rest of the lifecycle is self-serve too: hover a company card for **✕ delete** (removes the raw file, the saved mapping, and its cached LLM extractions, matched by exact note text), or open the mapper's **Config JSON** tab for the danger zone — *delete saved mapping (start over)* keeps the raw file and drops you on a fresh draft.
+
 ## Layout
 
 ```

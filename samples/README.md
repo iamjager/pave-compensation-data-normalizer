@@ -1,6 +1,6 @@
 # Scenario files for manual testing
 
-Drag any of these onto the **＋ Onboard a new company** card on the home page. They live outside `src/data/` so nothing becomes a company until you upload it.
+Drag any of these onto the **＋ Onboard a new company** card on the home page. They live outside `src/data/` so nothing becomes a company until you upload it. When you're done testing, hover the company's card and hit **✕** to remove it again — note that deleting an uploaded `umbrella_corp` also removes its pre-cached equity extractions (they're matched by note text); restore them with `git checkout -- src/data/cache/equity/`.
 
 | File | Scenario | Expected behavior |
 |---|---|---|
