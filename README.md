@@ -32,7 +32,7 @@ npm test           # 64 tests: transform units, golden runs over the real raw
 7. Open **Globex**: Ryan Mitchell's monthly `6666.67` shows as `80,000.04` with a `⚡×12` annualization badge; Mike Reeves' free-text refresh note shows `700,000` equity total with an `✨inferred` badge — click the row for raw-vs-normalized side by side.
 8. **Export** writes the normalized dataset (envelope + records + issues) to `src/data/output/`.
 
-To onboard a **new company**, drop its export into `src/data/raw/` and open it from the home page — the profiler, suggest, and preview all work before any config exists.
+To onboard a **new company**, use the **＋ Onboard a new company** card on the home page — drag-drop or browse a `.json`/`.csv` export and you land straight in the mapper with the file profiled and ✨Suggest one click away. Uploading a file for an already-mapped company offers to **replace** its raw file: the saved mapping is kept, and the preview immediately reports any drift in the new export. (Dropping files into `src/data/raw/` still works as the power-user path.)
 
 ## Layout
 

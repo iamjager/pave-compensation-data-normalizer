@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { CompanyConfig } from "@/lib/engine/config";
 import type { RunResult } from "@/lib/engine/normalize";
@@ -36,6 +36,36 @@ export function listSourceFiles(): SourceFileInfo[] {
       fileName,
       format: fileName.endsWith(".csv") ? "csv" as const : "json" as const,
     }));
+}
+
+/** Derive a company id from an uploaded file name; always passes SAFE_ID. */
+export function sanitizeCompanyId(fileName: string): string {
+  const base = fileName.replace(/\.[^.]*$/, "");
+  const id = base
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+  return id !== "" ? id : "company";
+}
+
+export function rawFileExists(id: string): boolean {
+  return listSourceFiles().some((f) => f.id === id);
+}
+
+/**
+ * Write (or replace) a company's raw export. Any existing raw file with the
+ * same id is removed first — including one with the other extension — so an
+ * id always maps to exactly one file.
+ */
+export function writeRawFile(id: string, format: "json" | "csv", text: string): SourceFileInfo {
+  assertSafeId(id);
+  mkdirSync(RAW_DIR, { recursive: true });
+  for (const existing of listSourceFiles()) {
+    if (existing.id === id) unlinkSync(path.join(RAW_DIR, existing.fileName));
+  }
+  const fileName = `${id}.${format}`;
+  writeFileSync(path.join(RAW_DIR, fileName), text);
+  return { id, fileName, format };
 }
 
 export function readRawFile(id: string): { text: string; info: SourceFileInfo } {

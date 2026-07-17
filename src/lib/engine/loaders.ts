@@ -42,16 +42,25 @@ function loadCsv(rawText: string): LoadedSource {
 
 /**
  * Best-effort guess of where the record array lives in an unknown JSON
- * document (top-level keys only): seeds the draft config for a new company.
+ * document: seeds the draft config for a newly uploaded company. Scans
+ * top-level keys, then one level deeper ({report: {workers: [...]}}).
  */
 export function guessRecordsPath(rawText: string): string | null {
+  const isRecordArray = (v: unknown): boolean =>
+    Array.isArray(v) && v.length > 0 && v.every((x) => x && typeof x === "object" && !Array.isArray(x));
+
   try {
     const doc = JSON.parse(rawText);
     if (Array.isArray(doc)) return null; // root array — no path needed
     if (doc && typeof doc === "object") {
       for (const [key, value] of Object.entries(doc)) {
-        if (Array.isArray(value) && value.length > 0 && value.every((x) => x && typeof x === "object")) {
-          return key;
+        if (isRecordArray(value)) return key;
+      }
+      for (const [outer, value] of Object.entries(doc)) {
+        if (value && typeof value === "object" && !Array.isArray(value)) {
+          for (const [inner, nested] of Object.entries(value as Record<string, unknown>)) {
+            if (isRecordArray(nested)) return `${outer}.${inner}`;
+          }
         }
       }
     }

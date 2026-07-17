@@ -54,7 +54,9 @@ Every edit re-runs the real pipeline (debounced 400ms). The specialist never tru
 
 **The mapper is also the maintenance surface.** When a future export drifts, the same screen is the repair tool — the drift panel turns silent breakage into a to-do list (see below).
 
-Left out, on purpose: file upload (drop into `src/data/raw/` — an upload endpoint is plumbing, not product), config version *history/diff* UI (versions+lineage are recorded; the UI shows only current), per-row accept/reject for suggestions (Save-confirms-all is one decision instead of twenty), transform-chip reordering (remove+re-add, or the JSON escape hatch), auth/multi-user.
+**Onboarding is self-serve.** The home page uploads a `.json`/`.csv` export (drag-drop or browse); validation at upload is shape-only — is it parseable at all — because mapping is the interactive part the mapper owns. Uploading a file whose company already exists deliberately offers *replace* rather than erroring: that is the drift-maintenance flow — the saved config is kept and the next preview reports exactly what changed in the new export.
+
+Left out, on purpose: config version *history/diff* UI (versions+lineage are recorded; the UI shows only current), per-row accept/reject for suggestions (Save-confirms-all is one decision instead of twenty), transform-chip reordering (remove+re-add, or the JSON escape hatch), auth/multi-user.
 
 ## Error handling
 

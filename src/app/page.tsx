@@ -1,4 +1,5 @@
 import Link from "next/link";
+import UploadCard from "@/components/UploadCard";
 import { loadRecords } from "@/lib/engine/loaders";
 import { listSourceFiles, readConfig, readRawFile } from "@/lib/server/store";
 
@@ -23,8 +24,7 @@ export default async function Home() {
       <h1 className="text-2xl font-semibold tracking-tight">Pave Integration Mapper</h1>
       <p className="mt-1 text-sm text-slate-500">
         Pick a company to inspect its raw HR export, define mappings to the standard schema, and
-        preview the normalized output. Drop a new export into <code>src/data/raw/</code> to onboard
-        a new company.
+        preview the normalized output — or upload a new export to onboard a new company.
       </p>
 
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -57,6 +57,7 @@ export default async function Home() {
             </div>
           </Link>
         ))}
+        <UploadCard />
       </div>
     </main>
   );
