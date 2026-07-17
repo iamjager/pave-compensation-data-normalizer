@@ -1,0 +1,28 @@
+{
+  "config_version": 1,
+  "company_id": "initech_llc",
+  "company_name": "Initech LLC",
+  "updated_at": "2026-07-17T00:00:00.000Z",
+  "source": { "format": "csv" },
+  "mappings": {
+    "employee_id": { "source": "EMP_NUM" },
+    "first_name": { "source": "FULL_NAME", "transforms": [{ "fn": "split", "args": { "separator": ",", "index": 1 } }] },
+    "last_name": { "source": "FULL_NAME", "transforms": [{ "fn": "split", "args": { "separator": ",", "index": 0 } }] },
+    "job_title": { "source": "TITLE" },
+    "department": { "source": "DEPT_NAME" },
+    "manager_employee_id": { "source": "MGR_EMP_NUM" },
+    "employment_status": { "source": "STATUS", "transforms": [{ "fn": "map_values", "args": { "map": { "A": "active", "T": "terminated", "L": "leave" } } }] },
+    "hire_date": { "source": "HIRE_DT", "transforms": [{ "fn": "parse_date" }] },
+    "termination_date": { "source": "TERM_DT", "transforms": [{ "fn": "parse_date" }] },
+    "city": { "source": "CITY" },
+    "state": { "source": "STATE" },
+    "country": { "const": "US" },
+    "currency": { "const": "USD" },
+    "pay_type": { "const": "salaried" },
+    "base_salary_annual": { "source": "BASE_ANNUAL", "transforms": [{ "fn": "to_number" }] },
+    "bonus_target_pct": { "source": "BONUS_TARGET_PCT", "transforms": [{ "fn": "to_number" }] },
+    "commission_pct": { "source": "COMMISSION_PCT", "transforms": [{ "fn": "to_number" }] },
+    "equity_grant_value": { "source": "EQUITY_GRANT_VAL", "transforms": [{ "fn": "to_number" }] },
+    "equity_vesting_months": { "source": "VEST_MONTHS", "transforms": [{ "fn": "to_number" }] }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "config_version": 1,
+  "company_id": "globex_inc",
+  "company_name": "Globex Inc",
+  "updated_at": "2026-07-17T00:00:00.000Z",
+  "source": { "format": "json", "records_path": "employees" },
+  "mappings": {
+    "employee_id": { "source": "id" },
+    "first_name": { "source": "firstName" },
+    "last_name": { "source": "lastName" },
+    "work_email": { "source": "workEmail" },
+    "job_title": { "source": "jobTitle" },
+    "department": { "source": "department" },
+    "division": { "source": "division" },
+    "employment_status": { "source": "status", "transforms": [{ "fn": "map_values", "args": { "map": { "active": "active", "terminated": "terminated" } } }] },
+    "hire_date": { "source": "hireDate", "transforms": [{ "fn": "parse_date" }] },
+    "termination_date": { "source": "terminationDate", "transforms": [{ "fn": "parse_date" }] },
+    "city": { "source": "location", "transforms": [{ "fn": "split", "args": { "separator": ",", "index": 0 } }] },
+    "state": { "source": "location", "transforms": [{ "fn": "split", "args": { "separator": ",", "index": 1 } }] },
+    "country": { "const": "US" },
+    "currency": { "const": "USD" },
+    "pay_type": { "source": "payType", "transforms": [{ "fn": "map_values", "args": { "map": { "Salary": "salaried", "Hourly": "hourly" } } }] },
+    "base_salary_annual": { "source": "payRate", "transforms": [{ "fn": "annualize", "args": { "frequency_source": "payPer" } }] },
+    "bonus_target_amount": { "source": "bonusAmount", "transforms": [{ "fn": "annualize", "args": { "frequency_source": "bonusFrequency" } }] },
+    "variable_comp_notes": { "source": "commissionRate", "transforms": [{ "fn": "trim" }] },
+    "equity_notes": { "source": "equityNotes" },
+    "equity_grants": { "source": "equityNotes", "transforms": [{ "fn": "extract_equity_llm" }] }
+  }
+}
