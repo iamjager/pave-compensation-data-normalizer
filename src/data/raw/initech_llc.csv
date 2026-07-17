@@ -1,0 +1,23 @@
+EMP_NUM,FULL_NAME,TITLE,DEPT_CODE,DEPT_NAME,MGR_EMP_NUM,HIRE_DT,TERM_DT,STATUS,BASE_ANNUAL,COMMISSION_PCT,BONUS_TARGET_PCT,EQUITY_GRANT_VAL,VEST_MONTHS,LOCATION_CODE,CITY,STATE
+10001,"Williams, Marcus",Staff Engineer,ENG,Engineering,10050,2020-06-15,,A,215000,,12,300000,48,SF01,San Francisco,CA
+10002,"Rodriguez, Elena",Account Executive,SALES,Sales,10051,2022-03-01,,A,110000,25,,50000,48,NY01,New York,NY
+10003,"Park, David",Data Analyst,DATA,Data & Analytics,10052,2023-01-20,2024-11-15,T,95000,,8,40000,48,AUS1,Austin,TX
+10004,"Foster, Rachel",Product Manager II,PROD,Product,10053,2022-05-20,,A,170000,,10,160000,48,SF01,San Francisco,CA
+10005,"Patel, Nina",Principal Platform Engineer,PLAT,Platform Engineering,10050,2020-06-15,,A,230000,,12,280000,48,SF01,San Francisco,CA
+10006,"Mendez, Carlos",Platform Engineer,PLAT,Platform Engineering,10054,2023-04-17,,A,128000,,8,80000,48,AUS1,Austin,TX
+10007,"Barnes, Olivia",Customer Success Rep,CS,Customer Success,10055,2023-03-27,,A,95000,,15,48000,48,AUS1,Austin,TX
+10008,"Cooper, Ian",Solutions Engineer,CS,Customer Success,10055,2022-08-15,,A,155000,,12,120000,48,SF01,San Francisco,CA
+10009,"Chang, Lisa",Senior Product Designer,PROD,Product,10053,2022-11-14,,A,158000,,10,140000,48,NY01,New York,NY
+10010,"Hayes, Jordan",Platform Engineer II,PLAT,Platform Engineering,10054,2021-10-01,,L,175000,,10,160000,48,SF01,San Francisco,CA
+10011,"Kim, Sarah",Engineering Manager,ENG,Engineering,10050,2019-06-20,,A,230000,,15,350000,48,SF01,San Francisco,CA
+10012,"Nakamura, Tom",Director of Product,PROD,Product,,2021-03-01,,A,210000,,15,280000,48,SF01,San Francisco,CA
+10013,"Thompson, Aisha",Software Engineer I,ENG,Engineering,10011,2024-02-05,,A,140000,,8,100000,48,AUS1,Austin,TX
+10014,"Mitchell, Ryan",Senior Account Executive,SALES,Sales,10051,2021-02-22,,A,120000,30,,80000,48,SF01,San Francisco,CA
+10015,"Laurent, Sophie",Data Scientist II,DATA,Data & Analytics,10052,2022-09-06,,A,175000,,10,180000,48,SF01,San Francisco,CA
+10016,"Tanaka, Chris",ML Engineer,DATA,Data & Analytics,10052,2022-01-18,,A,185000,,10,200000,48,SF01,San Francisco,CA
+10017,"Herrera, Natalie",CS Associate,CS,Customer Success,10055,2024-03-11,,A,98000,,15,50000,48,SF01,San Francisco,CA
+10018,"Okafor, Grace",Senior CSM,CS,Customer Success,10055,2021-07-19,,A,118000,,15,60000,48,AUS1,Austin,TX
+10019,"Chen, Jamie",Software Engineer III,ENG,Engineering,10011,2022-03-15,,A,165000,,10,200000,48,SF01,San Francisco,CA
+10020,"O'Brien, Kevin",Product Designer,PROD,Product,10053,2023-09-25,,A,125000,,8,80000,48,AUS1,Austin,TX
+10021,"Wu, Amanda",Account Executive,SALES,Sales,10051,2022-07-11,,A,110000,25,,50000,48,NY01,New York,NY
+10022,"Sharma, Priya",Senior Product Manager,PROD,Product,10053,2021-08-01,,A,178000,,10,200000,48,NY01,New York,NY

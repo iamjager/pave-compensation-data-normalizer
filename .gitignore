@@ -1,0 +1,19 @@
+# deps / build
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# env — never commit the API key
+.env
+.env.local
+
+# exports are run artifacts, not source
+src/data/output/*
+!src/data/output/.gitkeep
+
+# editor / OS
+.idea/
+.DS_Store

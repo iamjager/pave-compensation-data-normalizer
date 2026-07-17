@@ -1,0 +1,314 @@
+{
+  "report_name": "Worker Compensation Detail",
+  "generated_at": "2026-04-15T08:30:00Z",
+  "company": "Acme Corp",
+  "workers": [
+    {
+      "worker_id": "WD-10042",
+      "legal_name": { "first": "Jamie", "last": "Chen" },
+      "business_title": "Software Engineer III",
+      "supervisory_org": "Engineering - Platform",
+      "hire_date": "2022-03-15",
+      "worker_status": "Active",
+      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 165000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 200000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 10, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Engineering", "job_level": "P4", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10087",
+      "legal_name": { "first": "Elena", "last": "Rodriguez" },
+      "business_title": "Senior Software Engineer",
+      "supervisory_org": "Engineering - Core",
+      "hire_date": "2020-01-10",
+      "worker_status": "Active",
+      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 215000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 320000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 12, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Engineering", "job_level": "P5", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10103",
+      "legal_name": { "first": "Sarah", "last": "Kim" },
+      "business_title": "Engineering Manager",
+      "supervisory_org": "Engineering - Platform",
+      "hire_date": "2019-06-20",
+      "worker_status": "Active",
+      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 230000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 350000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 15, "plan_name": "Manager Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Engineering", "job_level": "M1", "management_level": "Manager" }
+    },
+    {
+      "worker_id": "WD-10156",
+      "legal_name": { "first": "Aisha", "last": "Thompson" },
+      "business_title": "Software Engineer I",
+      "supervisory_org": "Engineering - Platform",
+      "hire_date": "2024-02-05",
+      "worker_status": "Active",
+      "location": { "city": "Austin", "state": "TX", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 140000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 100000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 8, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Engineering", "job_level": "P3", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10201",
+      "legal_name": { "first": "Tom", "last": "Nakamura" },
+      "business_title": "Director of Product",
+      "supervisory_org": "Product - Consumer",
+      "hire_date": "2021-03-01",
+      "worker_status": "Active",
+      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 210000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 280000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 15, "plan_name": "Leadership Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Product", "job_level": "P5", "management_level": "Director" }
+    },
+    {
+      "worker_id": "WD-10089",
+      "legal_name": { "first": "Marcus", "last": "Williams" },
+      "business_title": "Software Engineer II",
+      "supervisory_org": "Engineering - Platform",
+      "hire_date": "2023-06-12",
+      "worker_status": "Leave",
+      "location": { "city": "Austin", "state": "TX", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 130000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 100000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 8, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Engineering", "job_level": "P3", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10210",
+      "legal_name": { "first": "Rachel", "last": "Foster" },
+      "business_title": "Product Manager II",
+      "supervisory_org": "Product - Platform",
+      "hire_date": "2022-05-20",
+      "worker_status": "Active",
+      "location": { "city": "New York", "state": "NY", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 170000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 160000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 10, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Product", "job_level": "P4", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10305",
+      "legal_name": { "first": "Kevin", "last": "O'Brien" },
+      "business_title": "Product Designer",
+      "supervisory_org": "Design - Product",
+      "hire_date": "2023-09-25",
+      "worker_status": "Active",
+      "location": { "city": "Austin", "state": "TX", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 125000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 80000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 8, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Design", "job_level": "P3", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10411",
+      "legal_name": { "first": "Nina", "last": "Patel" },
+      "business_title": "Principal Platform Engineer",
+      "supervisory_org": "Engineering - Platform",
+      "hire_date": "2020-06-15",
+      "worker_status": "Active",
+      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 230000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 400000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 12, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Engineering", "job_level": "P6", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10502",
+      "legal_name": { "first": "Jordan", "last": "Hayes" },
+      "business_title": "Platform Engineer II",
+      "supervisory_org": "Engineering - Platform",
+      "hire_date": "2021-10-01",
+      "worker_status": "Active",
+      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 175000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 180000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 10, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Engineering", "job_level": "P4", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10088",
+      "legal_name": { "first": "Carlos", "last": "Mendez" },
+      "business_title": "Software Engineer II",
+      "supervisory_org": "Engineering - Core",
+      "hire_date": "2023-04-17",
+      "worker_status": "Active",
+      "location": { "city": "Austin", "state": "TX", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 128000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 90000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 8, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Engineering", "job_level": "P3", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10600",
+      "legal_name": { "first": "Maya", "last": "Johnson" },
+      "business_title": "Senior Data Scientist",
+      "supervisory_org": "Data Science",
+      "hire_date": "2020-11-02",
+      "worker_status": "Active",
+      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 220000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 300000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 12, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Data Science", "job_level": "P5", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10701",
+      "legal_name": { "first": "Sophie", "last": "Laurent" },
+      "business_title": "Data Scientist II",
+      "supervisory_org": "Data Science",
+      "hire_date": "2022-09-06",
+      "worker_status": "Active",
+      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 175000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 180000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 10, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Data Science", "job_level": "P4", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10333",
+      "legal_name": { "first": "Ryan", "last": "Mitchell" },
+      "business_title": "Account Executive",
+      "supervisory_org": "Sales - Enterprise",
+      "hire_date": "2021-02-22",
+      "worker_status": "Active",
+      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 120000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 60000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": null
+      },
+      "job_profile": { "job_family": "Sales", "job_level": "P4", "management_level": "Individual Contributor" },
+      "additional_compensation": {
+        "commission_plan": { "type": "uncapped", "ote": 240000, "split": "50/50" }
+      }
+    },
+    {
+      "worker_id": "WD-10334",
+      "legal_name": { "first": "Amanda", "last": "Wu" },
+      "business_title": "Account Executive",
+      "supervisory_org": "Sales - Mid-Market",
+      "hire_date": "2022-07-11",
+      "worker_status": "Active",
+      "location": { "city": "New York", "state": "NY", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 110000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 50000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": null
+      },
+      "job_profile": { "job_family": "Sales", "job_level": "P3", "management_level": "Individual Contributor" },
+      "additional_compensation": {
+        "commission_plan": { "type": "uncapped", "ote": 200000, "split": "55/45" }
+      }
+    },
+    {
+      "worker_id": "WD-10777",
+      "legal_name": { "first": "Olivia", "last": "Barnes" },
+      "business_title": "Customer Success Manager",
+      "supervisory_org": "Customer Success",
+      "hire_date": "2023-03-27",
+      "worker_status": "Active",
+      "location": { "city": "Austin", "state": "TX", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 95000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 48000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 15, "plan_name": "CS Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Customer Success", "job_level": "P3", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10778",
+      "legal_name": { "first": "Ian", "last": "Cooper" },
+      "business_title": "Solutions Engineer",
+      "supervisory_org": "Customer Success",
+      "hire_date": "2022-08-15",
+      "worker_status": "Active",
+      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 155000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 120000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 12, "plan_name": "CS Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Customer Success", "job_level": "P4", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10900",
+      "legal_name": { "first": "Priya", "last": "Sharma" },
+      "business_title": "Senior Product Manager",
+      "supervisory_org": "Product - Consumer",
+      "hire_date": "2021-08-01",
+      "worker_status": "Active",
+      "location": { "city": "New York", "state": "NY", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 178000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 200000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 10, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Product", "job_level": "P5", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10901",
+      "legal_name": { "first": "David", "last": "Park" },
+      "business_title": "Software Engineer II",
+      "supervisory_org": "Engineering - Core",
+      "hire_date": "2023-01-20",
+      "worker_status": "Terminated",
+      "termination_date": "2026-02-28",
+      "location": { "city": "New York", "state": "NY", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 172000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 150000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 10, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Engineering", "job_level": "P4", "management_level": "Individual Contributor" }
+    },
+    {
+      "worker_id": "WD-10950",
+      "legal_name": { "first": "Chris", "last": "Tanaka" },
+      "business_title": "ML Engineer",
+      "supervisory_org": "Data Science",
+      "hire_date": "2022-01-18",
+      "worker_status": "Active",
+      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
+      "compensation": {
+        "total_base_pay": { "amount": 185000, "currency": "USD", "frequency": "Annual" },
+        "stock_awards": { "grant_value": 220000, "vesting_schedule": "4yr_1yr_cliff" },
+        "bonus_plan": { "target_pct": 10, "plan_name": "IC Bonus Plan" }
+      },
+      "job_profile": { "job_family": "Data Science", "job_level": "P4", "management_level": "Individual Contributor" }
+    }
+  ]
+}
