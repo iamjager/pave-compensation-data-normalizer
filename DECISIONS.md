@@ -2,6 +2,8 @@
 
 A tool like this is a chain of judgment calls. The ones marked **Human call** were made — or forced — by me during the design discussion, usually by pushing back on the AI's first proposal; they are highlighted because that's where the product got its shape. The full split is in [AI usage](#ai-usage) at the end.
 
+To see the decisions below in action, watch [`demo.mp4`](./demo.mp4) (~4 minutes, covering onboarding, the trust loop, drift repair, and validation).
+
 ## Product decisions (the Integration Mapper)
 
 **Who this is for.** An integrations specialist whose job has three cognitive parts: understand an unfamiliar export, match it semantically to the schema, and catch the traps — Globex pays two people per *month*, so mapping `payRate` without noticing `payPer` ships a $6,666 "salary" into benchmarks. Every screen decision serves one of those three parts.

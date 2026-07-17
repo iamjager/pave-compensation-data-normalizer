@@ -4,6 +4,8 @@ A tool where a non-technical integrations specialist loads a company's raw HR ex
 
 The original assignment brief is in [ASSIGNMENT.md](./ASSIGNMENT.md). Design rationale and tradeoffs are in [DECISIONS.md](./DECISIONS.md).
 
+**🎥 Demo video:** [demo.mp4](./demo.mp4) — a ~4-minute walkthrough of the main scenarios: a mapped company, the live-preview trust loop, onboarding a new export with AI-suggested mappings, drift repair after a provider change, and bad-data validation.
+
 ## Setup
 
 ```bash
