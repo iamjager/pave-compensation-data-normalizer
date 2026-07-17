@@ -1,26 +1,30 @@
 import { describe, expect, test, vi } from "vitest";
-import type { EquityExtractor } from "@/lib/engine/equity";
+import type { EquityExtractor, EquityGrant } from "@/lib/engine/equity";
 import { normalize } from "@/lib/engine/normalize";
 import { readConfig, readRaw } from "./helpers";
 
 const REFRESH_NOTE =
   "500k RSU over 4 years, granted 2019-11. Refresh: 200k RSU over 4 years, granted 2023-01";
 
+// The engine coerces extractor output through coerceGrants, so partial
+// grants are the realistic shape to feed it.
+const grants = (items: Array<Partial<EquityGrant>>) => items as EquityGrant[];
+
 /** Deterministic stand-in for the LLM: understands the two note shapes we assert on. */
 const mockExtractor = (): EquityExtractor & { extract: ReturnType<typeof vi.fn> } => ({
   extract: vi.fn(async (text: string) => {
     if (text === REFRESH_NOTE) {
       return {
-        grants: [
+        grants: grants([
           { type: "rsu", value: 500000, vesting_months: 48, granted: "2019-11" },
           { type: "rsu", value: 200000, vesting_months: 48, granted: "2023-01" },
-        ],
+        ]),
       };
     }
     if (text.includes("options")) {
-      return { grants: [{ type: "option", value: 60000, strike_price: 4.2, granted: "2021-08" }] };
+      return { grants: grants([{ type: "option", value: 60000, strike_price: 4.2, granted: "2021-08" }]) };
     }
-    return { grants: [{ type: "rsu", value: 100000 }] };
+    return { grants: grants([{ type: "rsu", value: 100000 }]) };
   }),
 });
 

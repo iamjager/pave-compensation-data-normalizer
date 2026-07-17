@@ -40,6 +40,27 @@ function loadCsv(rawText: string): LoadedSource {
   return { records, sourceGeneratedAt: null };
 }
 
+/**
+ * Best-effort guess of where the record array lives in an unknown JSON
+ * document (top-level keys only): seeds the draft config for a new company.
+ */
+export function guessRecordsPath(rawText: string): string | null {
+  try {
+    const doc = JSON.parse(rawText);
+    if (Array.isArray(doc)) return null; // root array — no path needed
+    if (doc && typeof doc === "object") {
+      for (const [key, value] of Object.entries(doc)) {
+        if (Array.isArray(value) && value.length > 0 && value.every((x) => x && typeof x === "object")) {
+          return key;
+        }
+      }
+    }
+  } catch {
+    // unparseable — the loader will report it properly
+  }
+  return null;
+}
+
 function loadJson(rawText: string, source: SourceSpec): LoadedSource {
   let doc: unknown;
   try {
