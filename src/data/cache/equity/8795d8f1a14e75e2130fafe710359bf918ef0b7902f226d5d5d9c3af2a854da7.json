@@ -1,0 +1,14 @@
+{
+  "source_text": "280k RSU, 4yr vest, 1yr cliff, granted 2021-03",
+  "grants": [
+    {
+      "type": "rsu",
+      "value": 280000,
+      "vesting_months": 48,
+      "cliff_months": 12,
+      "granted": "2021-03",
+      "strike_price": null,
+      "provenance": "llm_inferred"
+    }
+  ]
+}

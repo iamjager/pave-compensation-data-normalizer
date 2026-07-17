@@ -1,0 +1,14 @@
+{
+  "source_text": "140k RSU over 4 years, granted 2022-11",
+  "grants": [
+    {
+      "type": "rsu",
+      "value": 140000,
+      "vesting_months": 48,
+      "cliff_months": null,
+      "granted": "2022-11",
+      "strike_price": null,
+      "provenance": "llm_inferred"
+    }
+  ]
+}

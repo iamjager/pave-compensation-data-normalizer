@@ -1,0 +1,23 @@
+{
+  "source_text": "500k RSU over 4 years, granted 2019-11. Refresh: 200k RSU over 4 years, granted 2023-01",
+  "grants": [
+    {
+      "type": "rsu",
+      "value": 500000,
+      "vesting_months": 48,
+      "cliff_months": null,
+      "granted": "2019-11",
+      "strike_price": null,
+      "provenance": "llm_inferred"
+    },
+    {
+      "type": "rsu",
+      "value": 200000,
+      "vesting_months": 48,
+      "cliff_months": null,
+      "granted": "2023-01",
+      "strike_price": null,
+      "provenance": "llm_inferred"
+    }
+  ]
+}

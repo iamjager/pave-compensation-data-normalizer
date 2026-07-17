@@ -1,0 +1,14 @@
+{
+  "source_text": "60k options, strike $4.20, granted 2021-08",
+  "grants": [
+    {
+      "type": "option",
+      "value": 60000,
+      "vesting_months": null,
+      "cliff_months": null,
+      "granted": "2021-08",
+      "strike_price": 4.2,
+      "provenance": "llm_inferred"
+    }
+  ]
+}

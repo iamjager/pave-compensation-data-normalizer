@@ -1,0 +1,14 @@
+{
+  "source_text": "50k RSU over 4 years",
+  "grants": [
+    {
+      "type": "rsu",
+      "value": 50000,
+      "vesting_months": 48,
+      "cliff_months": null,
+      "granted": null,
+      "strike_price": null,
+      "provenance": "llm_inferred"
+    }
+  ]
+}

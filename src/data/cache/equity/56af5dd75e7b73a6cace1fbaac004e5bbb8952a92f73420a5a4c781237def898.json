@@ -1,0 +1,14 @@
+{
+  "source_text": "320k RSU over 4 years, granted 2020-01",
+  "grants": [
+    {
+      "type": "rsu",
+      "value": 320000,
+      "vesting_months": 48,
+      "cliff_months": null,
+      "granted": "2020-01",
+      "strike_price": null,
+      "provenance": "llm_inferred"
+    }
+  ]
+}
