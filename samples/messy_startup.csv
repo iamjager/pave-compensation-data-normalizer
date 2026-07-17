@@ -1,0 +1,11 @@
+EMP_ID,FIRST_NAME,LAST_NAME,JOB_TITLE,DEPARTMENT,STATUS,HIRE_DATE,TERM_DATE,ANNUAL_SALARY,CITY,STATE
+S-001,Nora,Blake,Software Engineer,Engineering,ACTIVE,2022-04-11,,145000,Seattle,WA
+S-002,Omar,Farouk,Product Manager,Product,ACTIVE,2021-09-01,,162000,Seattle,WA
+,Jade,Nguyen,Product Designer,Design,ACTIVE,2023-01-16,,118000,Portland,OR
+S-004,Liam,Carter,Data Analyst,Data,ACTIVE,2023-07-03,,6500,Portland,OR
+S-005,Ana,Sousa,Account Executive,Sales,TERM,2022-02-14,2021-12-31,120000,Austin,TX
+S-006,Ravi,Patel,Support Lead,Support,TERM,2020-06-08,,98000,Austin,TX
+S-007,Emma,Stone,QA Engineer,Engineering,X,2024-03-25,,112000,Seattle,WA
+S-002,Omar,Farouk,Product Manager,Product,ACTIVE,2021-09-01,,162000,Seattle,WA
+S-009,Yuki,Tanaka,ML Engineer,Engineering,ACTIVE,TBD,,158000,Seattle,WA
+S-010,Grace,Lee,Engineering Manager,Engineering,ACTIVE,2021-05-17,,185000,Seattle,WA

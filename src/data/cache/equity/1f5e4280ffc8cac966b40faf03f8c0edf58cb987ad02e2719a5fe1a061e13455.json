@@ -1,0 +1,23 @@
+{
+  "source_text": "220k RSU over 4 years, granted 2021-09. Refresh: 90k RSU over 4 years, granted 2024-09",
+  "grants": [
+    {
+      "type": "rsu",
+      "value": 220000,
+      "vesting_months": 48,
+      "cliff_months": null,
+      "granted": "2021-09",
+      "strike_price": null,
+      "provenance": "llm_inferred"
+    },
+    {
+      "type": "rsu",
+      "value": 90000,
+      "vesting_months": 48,
+      "cliff_months": null,
+      "granted": "2024-09",
+      "strike_price": null,
+      "provenance": "llm_inferred"
+    }
+  ]
+}

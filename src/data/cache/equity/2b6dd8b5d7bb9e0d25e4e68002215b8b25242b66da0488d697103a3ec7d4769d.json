@@ -1,0 +1,14 @@
+{
+  "source_text": "75k RSU vesting over 4 years with a 1 year cliff, granted 2023-03",
+  "grants": [
+    {
+      "type": "rsu",
+      "value": 75000,
+      "vesting_months": 48,
+      "cliff_months": 12,
+      "granted": "2023-03",
+      "strike_price": null,
+      "provenance": "llm_inferred"
+    }
+  ]
+}
