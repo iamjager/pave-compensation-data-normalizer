@@ -2,8 +2,8 @@ import { type CompanyConfig, validateConfig } from "./config";
 import { computeDrift, type DriftReport } from "./drift";
 import { coerceGrants, type EquityExtractor, type EquityGrant, type GrantType } from "./equity";
 import type { Issue } from "./issues";
-import { loadRecords } from "./loaders";
-import { profileRecords } from "./profile";
+import { type ListInfo, loadRecords } from "./loaders";
+import { type FieldProfile, profileRecords } from "./profile";
 import { GRANT_TYPES, SCHEMA, outputFields } from "./schema";
 import { applyRule, TRANSFORM_IDS, type TransformCtx } from "./transforms";
 import { applyDatasetValidation, validateRecord } from "./validate";
@@ -46,6 +46,10 @@ export interface RunResult {
   envelope: RunEnvelope;
   records: WrappedRecord[];
   drift: DriftReport;
+  /** Every record list in the document and what happened to it. */
+  lists: ListInfo[];
+  /** Profiles of the (merged) record stream — lets the UI refresh pickers live. */
+  sourceProfiles: FieldProfile[];
 }
 
 export interface NormalizeOptions {
@@ -71,9 +75,24 @@ export async function normalize(
   config: CompanyConfig,
   opts: NormalizeOptions = {},
 ): Promise<RunResult> {
-  const { records: rawRecords, sourceGeneratedAt } = loadRecords(rawText, config.source);
+  const { records: rawRecords, sourceGeneratedAt, lists } = loadRecords(rawText, config.source);
   const configWarnings = validateConfig(config, TRANSFORM_IDS);
   const profiles = profileRecords(rawRecords);
+
+  // List-level problems are run-level warnings, loud but non-fatal.
+  for (const list of lists) {
+    if (list.missing && list.mode !== "unhandled") {
+      configWarnings.push(`Configured list "${list.path}" was not found in this file.`);
+    }
+    if (list.collision) {
+      configWarnings.push(
+        `List "${list.path}" was NOT merged: records already contain a "${list.embedSegment}" field.`,
+      );
+    }
+  }
+  const mergeSegments = lists.filter(
+    (l) => l.mode === "merge" && !l.missing && !l.collision && l.embedSegment,
+  );
 
   const records: WrappedRecord[] = [];
   for (let index = 0; index < rawRecords.length; index++) {
@@ -117,6 +136,15 @@ export async function normalize(
     data.equity_total_value =
       grantValues.length > 0 ? round2(grantValues.reduce((a, b) => a + b, 0)) : null;
 
+    for (const list of mergeSegments) {
+      if (!(list.embedSegment! in raw)) {
+        issues.push({
+          severity: "warning", code: "merge_unmatched",
+          message: `No matching "${list.path}" row for this record — its ${list.embedSegment}.* values are empty`,
+        });
+      }
+    }
+
     issues.push(...validateRecord(data));
     records.push({ data, issues, raw_index: index, raw, annotations });
   }
@@ -142,7 +170,17 @@ export async function normalize(
       config_warnings: configWarnings,
     },
     records,
-    drift: computeDrift(rawRecords, profiles, config, records.map((r) => r.issues)),
+    drift: computeDrift(
+      rawRecords,
+      profiles,
+      config,
+      records.map((r) => r.issues),
+      lists
+        .filter((l) => l.mode === "unhandled")
+        .map((l) => ({ path: l.path, recordCount: l.recordCount })),
+    ),
+    lists,
+    sourceProfiles: profiles,
   };
 }
 

@@ -41,7 +41,8 @@ export default function PreviewPanel({
   const driftCount = preview
     ? preview.drift.missingSources.length +
       preview.drift.unknownEnumValues.length +
-      preview.drift.unmappedSourceFields.length
+      preview.drift.unmappedSourceFields.length +
+      (preview.drift.unhandledLists ?? []).length
     : 0;
 
   const tabs: Array<{ id: Tab; label: string }> = [

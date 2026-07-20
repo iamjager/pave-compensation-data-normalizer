@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
-import { guessRecordsPath, loadRecords } from "@/lib/engine/loaders";
+import { enumerateListsFromText, guessRecordsPath, loadRecords } from "@/lib/engine/loaders";
 import { profileRecords } from "@/lib/engine/profile";
 import { deleteCompany, readConfig, readRawFile } from "@/lib/server/store";
 
 /**
- * Source inspection: parse the raw file and profile every field.
- * Uses the saved config's source settings when present, an explicit
- * ?records_path= override, or a best-effort guess for brand-new files.
+ * Source inspection: parse the raw file (applying the saved config's full
+ * source spec, including additional lists) and profile every field. Falls
+ * back to an explicit ?records_path= override or a best-effort guess for
+ * brand-new files.
  */
 export async function GET(
   request: Request,
@@ -23,11 +24,31 @@ export async function GET(
       override !== null ? override || undefined
       : config?.source.records_path ?? (info.format === "json" ? guessRecordsPath(text) ?? undefined : undefined);
 
-    const { records, sourceGeneratedAt } = loadRecords(text, {
+    // A records_path override that points at a configured additional list
+    // promotes it to primary — drop the stale list entry.
+    const additionalLists = (config?.source.additional_lists ?? []).filter(
+      (l) => l.path !== recordsPath,
+    );
+
+    const { records, sourceGeneratedAt, lists } = loadRecords(text, {
       format: info.format,
       records_path: recordsPath,
       generated_at_path: config?.source.generated_at_path,
+      additional_lists: additionalLists,
     });
+
+    // Join-key candidates per list, for the merge pickers.
+    const enumerated = info.format === "json" ? enumerateListsFromText(text) : [];
+    const listsWithKeys = lists.map((list) => ({
+      ...list,
+      keyCandidates: [
+        ...new Set(
+          (enumerated.find((e) => e.path === list.path)?.records ?? [])
+            .slice(0, 50)
+            .flatMap((r) => Object.keys(r)),
+        ),
+      ],
+    }));
 
     return NextResponse.json({
       info,
@@ -36,6 +57,7 @@ export async function GET(
       sourceGeneratedAt,
       profiles: profileRecords(records),
       sampleRecords: records.slice(0, 5),
+      lists: listsWithKeys,
     });
   } catch (e) {
     return NextResponse.json(

@@ -38,6 +38,8 @@ To onboard a **new company**, use the **＋ Onboard a new company** card on the 
 
 The rest of the lifecycle is self-serve too: hover a company card for **✕ delete** (removes the raw file, the saved mapping, and its cached LLM extractions, matched by exact note text), or open the mapper's **Config JSON** tab for the danger zone — *delete saved mapping (start over)* keeps the raw file and drops you on a fresh draft.
 
+Files containing **multiple record lists** (e.g. an `employees` list plus a `compensation` list keyed by employee ID — try `samples/spark_studios.json`) are handled in the sidebar's *Lists in this file* section: merge a list into the records by picking the record ID on each side, append it as more records, or ignore it — unhandled lists are flagged there and in the Drift tab.
+
 ## Layout
 
 ```

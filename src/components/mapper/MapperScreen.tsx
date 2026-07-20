@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { CompanyConfig, MappingRule } from "@/lib/engine/config";
+import type { CompanyConfig, MappingRule, SourceSpec } from "@/lib/engine/config";
+import type { ListInfo } from "@/lib/engine/loaders";
 import type { RunResult } from "@/lib/engine/normalize";
 import type { FieldProfile } from "@/lib/engine/profile";
 import { SCHEMA } from "@/lib/engine/schema";
@@ -13,6 +14,8 @@ import MappingTable from "./MappingTable";
 import PreviewPanel from "./PreviewPanel";
 import SourcePanel from "./SourcePanel";
 
+export type ListWithKeys = ListInfo & { keyCandidates?: string[] };
+
 export interface SourceDetail {
   info: { id: string; fileName: string; format: "json" | "csv" };
   recordsPath: string | null;
@@ -20,6 +23,7 @@ export interface SourceDetail {
   sourceGeneratedAt: string | null;
   profiles: FieldProfile[];
   sampleRecords: Record<string, unknown>[];
+  lists?: ListWithKeys[];
 }
 
 export type RowChip = "suggested" | "needs-review";
@@ -83,9 +87,13 @@ export default function MapperScreen({ companyId }: { companyId: string }) {
   }, [companyId]);
 
   // THE loop: any config change → debounced normalize with the inline draft.
+  // A monotonic sequence discards out-of-order responses — the debounce only
+  // cancels pending timers, not in-flight fetches.
+  const previewSeq = useRef(0);
   useEffect(() => {
     if (!config) return;
     const timer = setTimeout(async () => {
+      const seq = ++previewSeq.current;
       try {
         const res = await fetch("/api/normalize", {
           method: "POST",
@@ -93,6 +101,7 @@ export default function MapperScreen({ companyId }: { companyId: string }) {
           body: JSON.stringify({ sourceId: companyId, config }),
         });
         const json = await res.json();
+        if (seq !== previewSeq.current) return; // stale response
         if (res.ok) {
           setPreview(json);
           setPreviewError(null);
@@ -100,11 +109,17 @@ export default function MapperScreen({ companyId }: { companyId: string }) {
           setPreviewError(json.error ?? "Preview failed");
         }
       } catch (e) {
+        if (seq !== previewSeq.current) return;
         setPreviewError(e instanceof Error ? e.message : String(e));
       }
     }, 400);
     return () => clearTimeout(timer);
   }, [config, companyId]);
+
+  const updateSource = useCallback((next: SourceSpec) => {
+    setConfig((current) => (current ? { ...current, source: next } : current));
+    setDirty(true);
+  }, []);
 
   const updateRule = useCallback((fieldKey: string, rule: MappingRule | null) => {
     setConfig((current) => {
@@ -173,7 +188,8 @@ export default function MapperScreen({ companyId }: { companyId: string }) {
       const res = await fetch("/api/suggest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sourceId: companyId, recordsPath: config.source.records_path ?? null }),
+        // Full draft source spec, so suggestions see merged/concat'd lists.
+        body: JSON.stringify({ sourceId: companyId, source: config.source }),
       });
       const json = await res.json();
       if (!res.ok) {
@@ -263,6 +279,19 @@ export default function MapperScreen({ companyId }: { companyId: string }) {
     return { mapped: mapped.length, total: required.length };
   }, [config]);
 
+  // Live profiles/lists come from the preview (they reflect the DRAFT list
+  // config); the mount-time detail is the pre-preview fallback. keyCandidates
+  // only exist on the detail payload, so they're grafted onto preview lists.
+  const profiles = preview?.sourceProfiles ?? detail?.profiles ?? [];
+  const lists: ListWithKeys[] = useMemo(() => {
+    const base = preview?.lists ?? detail?.lists ?? [];
+    return base.map((list) => ({
+      ...list,
+      keyCandidates:
+        detail?.lists?.find((d) => d.path === list.path)?.keyCandidates ?? [],
+    }));
+  }, [preview, detail]);
+
   if (loadError) {
     return (
       <div className="p-10 text-sm text-rose-700">
@@ -305,11 +334,17 @@ export default function MapperScreen({ companyId }: { companyId: string }) {
       )}
 
       <div className="flex min-h-0 flex-1">
-        <SourcePanel profiles={detail.profiles} recordCount={detail.recordCount} />
+        <SourcePanel
+          profiles={profiles}
+          recordCount={preview?.envelope.summary.total ?? detail.recordCount}
+          lists={lists}
+          source={config.source}
+          onUpdateSource={updateSource}
+        />
         <div className="min-w-0 flex-1 overflow-y-auto">
           <MappingTable
             config={config}
-            profiles={detail.profiles}
+            profiles={profiles}
             preview={preview}
             rowStatus={rowStatus}
             onUpdateRule={updateRule}

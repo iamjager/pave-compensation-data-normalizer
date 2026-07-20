@@ -39,6 +39,7 @@ const FREQUENCY_FACTORS: Record<string, number> = {
   quarter: 4, quarterly: 4,
   month: 12, monthly: 12,
   week: 52, weekly: 52,
+  hour: 40 * 52, hourly: 40 * 52,
 };
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
@@ -102,7 +103,7 @@ export const TRANSFORMS: Record<string, TransformDef> = {
   annualize: {
     id: "annualize",
     label: "Annualize amount",
-    description: "Converts an amount to annual using a frequency read from another source field (Month × 12, Quarter × 4, Year × 1).",
+    description: "Converts an amount to annual using a frequency read from another source field (Month × 12, Quarter × 4, Hour × 2080, Year × 1).",
     args: [{ name: "frequency_source", label: "Frequency field", type: "source_path", required: true }],
     fn: (value, args, ctx) => {
       const n = typeof value === "number" ? value : Number(String(value).replace(/[$,\s]/g, ""));

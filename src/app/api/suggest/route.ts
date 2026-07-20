@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import type { SourceSpec } from "@/lib/engine/config";
 import { guessRecordsPath, loadRecords } from "@/lib/engine/loaders";
 import { profileRecords } from "@/lib/engine/profile";
 import {
@@ -16,21 +17,33 @@ import { readConfig, readRawFile } from "@/lib/server/store";
  */
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as { sourceId: string; recordsPath?: string | null };
+    const body = (await request.json()) as {
+      sourceId: string;
+      recordsPath?: string | null;
+      /** Full draft source spec — so suggestions see merged/concat'd lists. */
+      source?: SourceSpec;
+    };
     const { text, info } = readRawFile(body.sourceId);
-    const recordsPath =
-      body.recordsPath ??
-      readConfig(body.sourceId)?.source.records_path ??
-      (info.format === "json" ? guessRecordsPath(text) ?? undefined : undefined);
 
-    const { records } = loadRecords(text, { format: info.format, records_path: recordsPath });
+    let spec: SourceSpec;
+    if (body.source) {
+      spec = { ...body.source, format: info.format };
+    } else {
+      const recordsPath =
+        body.recordsPath ??
+        readConfig(body.sourceId)?.source.records_path ??
+        (info.format === "json" ? guessRecordsPath(text) ?? undefined : undefined);
+      spec = { format: info.format, records_path: recordsPath };
+    }
+
+    const { records } = loadRecords(text, spec);
     const profiles = profileRecords(records);
 
     if (hasApiKey()) {
       try {
         const { system, user } = buildSuggestPrompt(profiles, {
           format: info.format,
-          recordsPath: recordsPath ?? null,
+          recordsPath: spec.records_path ?? null,
         });
         const response = await getClient().messages.create({
           model: LLM_MODEL,

@@ -165,6 +165,8 @@ export function writeOutput(result: RunResult): string {
   mkdirSync(OUTPUT_DIR, { recursive: true });
   const stamp = result.envelope.run_at.replace(/[:.]/g, "-");
   const file = path.join(OUTPUT_DIR, `${result.envelope.company_id}.${stamp}.normalized.json`);
-  writeFileSync(file, JSON.stringify(result, null, 2) + "\n");
+  // sourceProfiles is UI plumbing, not part of the normalized dataset.
+  const { sourceProfiles: _omit, ...persisted } = result;
+  writeFileSync(file, JSON.stringify(persisted, null, 2) + "\n");
   return path.relative(process.cwd(), file);
 }

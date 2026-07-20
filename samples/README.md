@@ -10,6 +10,7 @@ Drag any of these onto the **＋ Onboard a new company** card on the home page. 
 | `messy_startup.csv` | **Bad data** in a new company | Uploads fine; problems surface in the preview after mapping (see below) |
 | `umbrella_corp.json` | **Brand-new company**, unfamiliar structure | Uploads fine; records found at the nested `payload.staff`; rehearses full onboarding (see below) |
 | `globex_inc.json` | **Structural drift** for an existing company | Triggers the replace-confirm dialog, then the drift-repair flow (see below) |
+| `spark_studios.json` | **Multiple lists in one file** | Uploads fine; the sidebar shows both lists and prompts for a disposition (see below) |
 
 ## `messy_startup.csv` — the validation showcase
 
@@ -30,6 +31,17 @@ Things to try:
 - Map `monthlyPay` straight to base salary *without* annualize: two records (8,750 and 9,500) quarantine on the $10k plausibility floor, and the rest show up as suspiciously low "annual" salaries in the preview — the range check is a safety net, the preview is the real review. Add **annualize** with `payCycle` as the frequency source → everything recovers with `⚡×12` badges.
 - Map `employmentState` with the value-map editor: `EMPLOYED → active`, `EXITED → terminated`, `SABBATICAL → leave`.
 - `equityText` → `equity_notes` raw + `equity_grants` via the LLM transform (✨Suggest proposes exactly this pairing). UC-002 and UC-008 each yield **two** grants (refresh), UC-004 an option with a $2.10 strike. These notes ship pre-cached (`src/data/cache/equity/`) so the preview is instant and offline-safe; a genuinely new note would extract live with the API key, or degrade to a warning without one — the raw text is kept either way.
+
+## `spark_studios.json` — multiple lists in one file
+
+A Gusto-style export with a `company` metadata object plus **two parallel lists**: `employees` (12) and `compensation` (12, keyed by `employee_id`). On open, the sidebar's **Lists in this file** section shows `employees — primary` and `compensation — not handled` (also reported in the Drift tab).
+
+1. Set the compensation list to **Merge into records** on `employee_id` — the badge flips to `12 matched` and `compensation.*` paths appear live in the source panel and every picker.
+2. ✨ Suggest now drafts mappings from both lists (it flags `compensation.salary_amount → base salary` as *low confidence* — it saw the hourly rows).
+3. Zoe Martinez (SS-010) is paid **hourly** (`salary_type: "hourly"`, 45/hr): map base salary with annualize on `compensation.salary_type` → `93,600` with a ⚡ badge.
+4. Also in here: equity in **shares** with strike prices in the notes (the shares-vs-dollars discussion), a rehire (SS-004/SS-005), lowercase city/department variants, and a `commission_plan` free-text.
+
+Try **Append as records** or **Ignore** on the same list to see concat and explicit-drop behavior; unmatched merges produce per-record `merge_unmatched` warnings.
 
 ## `globex_inc.json` — the drift-repair story
 

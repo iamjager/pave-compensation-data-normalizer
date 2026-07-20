@@ -10,6 +10,13 @@ describe("annualize", () => {
     expect(annotations["base_salary_annual.annualized_from"]).toBe("Month");
   });
 
+  test("hourly pay is multiplied by 40 * 52 and rounded to cents", async () => {
+    const { ctx, annotations } = mockCtx({ payPer: "Hour" }, "base_salary_annual");
+    const result = await TRANSFORMS.annualize.fn(20.50, { frequency_source: "payPer" }, ctx);
+    expect(result).toBe(20.50 * 40 * 52);
+    expect(annotations["base_salary_annual.annualized_from"]).toBe("Hour");
+  });
+
   test("the other monthly record: 6666.67 → 80000.04", async () => {
     const { ctx } = mockCtx({ payPer: "Month" });
     expect(await TRANSFORMS.annualize.fn(6666.67, { frequency_source: "payPer" }, ctx)).toBe(80000.04);

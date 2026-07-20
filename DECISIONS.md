@@ -34,7 +34,11 @@ Two more schema stances: bonus keeps both percent and amount forms because the s
 
 ### Config format
 
-One JSON document per company: `{source: {format, records_path}, mappings: {<target>: {source | const, transforms[]}}}` — dot-paths cover nested JSON and CSV columns behind one interface, and a small transform registry (`split`, `map_values`, `annualize`, `parse_date`, `to_number`, `stringify`, `extract_equity_llm`) does the rest. Each transform declares its args, so the UI renders editors generically and adding a capability is one registry entry. Deliberately *not* expressible: arbitrary code, conditional logic, cross-record joins, per-company validation overrides — each would erode the two properties that matter most: a non-engineer can read the config, and the UI can author all of it. Validation lives on the schema registry, not in configs, so every company is held to the same bar.
+One JSON document per company: `{source: {format, records_path, additional_lists}, mappings: {<target>: {source | const, transforms[]}}}` — dot-paths cover nested JSON and CSV columns behind one interface, and a small transform registry (`split`, `map_values`, `annualize`, `parse_date`, `to_number`, `stringify`, `extract_equity_llm`) does the rest. Each transform declares its args, so the UI renders editors generically and adding a capability is one registry entry.
+
+Documents with **multiple record lists** (an `employees` list plus a `compensation` list keyed by employee ID) are handled at the source level: each extra list gets an explicit disposition — *merge* (joined by a user-picked record ID and embedded under the list's name, so mapping paths read `compensation.salary_amount` and the rest of the machinery works unchanged), *append*, or *ignore* — and lists with no disposition are flagged in the sidebar and the drift report rather than silently dropped. Unmatched joins warn per record; join keys count as "used" for drift purposes.
+
+Deliberately *not* expressible: arbitrary code, conditional logic, cross-record lookups (resolving a manager's ID to their name), cross-*file* joins, composite join keys, per-company validation overrides — each would erode the two properties that matter most: a non-engineer can read the config, and the UI can author all of it. Validation lives on the schema registry, not in configs, so every company is held to the same bar.
 
 ### Storage
 
