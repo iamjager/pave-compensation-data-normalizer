@@ -1,0 +1,14 @@
+{
+  "source_text": "Strike: $4.80.",
+  "grants": [
+    {
+      "type": "unknown",
+      "value": null,
+      "vesting_months": null,
+      "cliff_months": null,
+      "granted": null,
+      "strike_price": 4.8,
+      "provenance": "llm_inferred"
+    }
+  ]
+}

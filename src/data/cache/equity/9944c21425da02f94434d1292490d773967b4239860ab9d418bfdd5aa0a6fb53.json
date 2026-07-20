@@ -1,0 +1,14 @@
+{
+  "source_text": "Strike: $3.60. Vesting: 4yr/1yr cliff.",
+  "grants": [
+    {
+      "type": "option",
+      "value": null,
+      "vesting_months": 48,
+      "cliff_months": 12,
+      "granted": null,
+      "strike_price": 3.6,
+      "provenance": "llm_inferred"
+    }
+  ]
+}
